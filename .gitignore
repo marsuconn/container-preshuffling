@@ -34,3 +34,10 @@ Thumbs.db
 # Local env files
 .env
 .env.*
+
+# Generated optimization artifacts
+**/output/
+**/preprocessing/output/
+**/block_*_bay_*.html
+**/path_to_save_file.html
+**/output_filename.lp
