@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Java / Gradle
+.gradle/
+build/
+out/
+
+# Node
+node_modules/
+
+# IDE / editor
+.idea/
+.vscode/
+
+# OS / misc
+.DS_Store
+Thumbs.db
+*.log
+
+# Local env files
+.env
+.env.*

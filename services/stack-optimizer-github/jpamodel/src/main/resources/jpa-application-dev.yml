@@ -1,0 +1,32 @@
+mysql-jpa-connections:
+  configurations:
+    stackOptimizer:
+      flyway:
+        migrationsPath: classpath:stackoptimizer/db/migration
+        mode: migrate
+      jpa:
+        persistenceUnitName: stackOptimizer
+        entityPackageScan: com.blumeglobal.stackoptimizer
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      #        hbm2ddl: create
+      jdbc:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        idleTimeout: 300000
+        connectionTimeout: 20000
+        maximumPoolSize: 50
+        minimumIdle: 10
+        poolName: StackOptimizer_Query_Conn_Pool
+        jdbcUrl: jdbc:mysql://data-blume-devdb-5.rez1.com:3306/stackoptimizer
+        username: stackappusr
+        password: St@cK@pP^$r517
+      # configure sql interceptors
+      dsc:
+        interceptors:
+          - audit
+          - performance
+        # configure audit column names if audit interceptor is configured
+        auditFields:
+          createBy: create_by
+          createOn: create_on
+          updateBy: update_by
+          updateOn: update_on

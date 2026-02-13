@@ -1,0 +1,40 @@
+/**/build/
+/.gradle/
+/.idea/
+/**/node_modules
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+#*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/jpamodel/src/main/generated
+/rest-sdk-java/src/gen
+/rest-sdk-js/*
+!/rest-sdk-js/docs
+!/rest-sdk-js/README.md
+!/rest-sdk-js/.npmrc
+!/rest-sdk-js/build.gradle
+!/rest-sdk-js/package-lock.json
+
+/micro-ui/.yalc/
+/micro-ui/.idea/
+/micro-ui/src/bit
+/micro-ui/.bit

@@ -1,0 +1,5 @@
+port: ":5235"
+config_port: "5235"
+
+jwt:
+  url: 'http://authorization-server.uat:8189/jwt/verify'

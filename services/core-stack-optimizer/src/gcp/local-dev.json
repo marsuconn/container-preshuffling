@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "blume-infra-dev",
+  "private_key_id": "33af188655a4de6e0da1faa61bae9a48bc5eb5e9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCoajyaJ+zYQxjW\nuHlqDYm+/z8FuwycAIZZqHlvHj1fvkvInvUKIUQlrtQBTmDiTdGVEmMNzCpNBx86\nGAf6A6iVZXSbBXOJCZeAd+L6lH4cQemoeX2SvCP9WfJPgxjhSQn1eGxvAnJ0W9iY\ntTFEHduX+K9PfWdLLJhi+YBF7Q7SPueFthCAcacElrPHFyiotoc2voyzGDvfrdQd\nGrJqfKY6++ntoQAUIOz2Sy6RH15hGeUjxKAcEDK+wcv5V/8eAk2cv2AJtmA3Dsub\nVc1Cwl375zrlHDXCz1ZwrxMPcln9sWR67e1OLA57uTA7dp7WRmuw4NHP/nbQIRAG\nnkcYhyCHAgMBAAECggEAHcWmD/Rl5Lc70V2MLSjWhHq35+nwqTVYisoDKZcVb3MD\nD6S2GcPWubilxtNVwjvShIFbHGnOwo4zQYBVDKgP6dUlH3B/w6Z771yCNh0BDDrE\ntSFBBysWS6fWc6Lvx4ezaH8Q4DD1DcfcyuYhHvMOSlfOmgVHuNzZ1YlY2UO2fokR\nu3+naMxTD4DTwJHbgpbpVvn9zmfIjp4xy/cc7V9405ocuC25hUbj1DLhwJ0Eklc1\nBUthk8pEYaXSKmaDTnDenVolNYfioT0YQWiaPUIB2NEYLV8CxwevENLDbRJkqRD4\nB/wDEzZEv8emw+PlgiHo/+v0TLgvBIL74fJgjpwiBQKBgQDbXKcy3Hclj2HVNPqJ\nVhq/2R3Ba35p//eycloclLCpWb3S3O8NY0PDPx/X7CLwy3fsZaw0USmhuoAMJE1P\n8T8jjcARG7gZ5a5J3QJUIzIBL9o7WaPEb/fU71R/8umeLAbEy6QS2rzr4qhREerU\nEHPB2plIHy1IMtGcJQ5FEj4lgwKBgQDEizmDpGd9OusPqRynWyDj4kQ/T6cwZ75X\nn5LK4Njrw7CQvqQC/4TJCn2pDcXsOSFW5WV2sYayVxTXl5klvwQJ5GDXX0fGgiwd\nrdKztynEBnE6fPtlEfS/pAbx0jGzfU9XMqmsgdVgfUgZ5ONt7BiS+ITlKq4e4J3U\n4vtlsQVtrQKBgDyR6NjyZzPH04u7hTJGxDwVB1JRDCbYttxfFuKta9pXHUMMHjXk\nIuHWnERSv5Mdm496w4Hup0Aw7wprO63HP1fh3BbdQIhmEynyDKKO1U/elrOsnLuw\n7w2sx/hMapVyMqxETpmmLGQ1waQg/mZv5IayhYCUmzxES/yBft8zmlVhAoGAaawB\nTEoEakxXPaBLC5/vWxa4YuHMnjXpHOtq3TFu77PTJr+ZJxOCrSS60z3YgF1nE3Va\nzCo+pXw0dIXJjYXaAgeMGb/cs1ohpgNjGcUM65wbHLs93uV8ldz27uV4W2ywT82p\ndFqKAsrZDTMHJH6f58U+jogX/fn+Ygt35wD6TjECgYAuepKA3r6Doq+7oZW7Oakl\niJl/QAiVlo8zXPT5ZXqIeKVUkPeSjygn6Ow1rbtA7xghrUx9ECd3GvLpixjCg4xp\nOzgimabfrrv58MIRaM1Jqdzj3M3ph+K8Vbou09UFwAXjx+J9z+oACCDW6X51QxfL\ngrv9igBG2ESRCpy+D12a7Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "bucket-access-creds@blume-infra-dev.iam.gserviceaccount.com",
+  "client_id": "103450811378557518585",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bucket-access-creds%40blume-infra-dev.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

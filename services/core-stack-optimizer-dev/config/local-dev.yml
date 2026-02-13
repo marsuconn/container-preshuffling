@@ -1,0 +1,7 @@
+support_folder: test/files/
+
+port: ":8224"
+config_port: "8224"
+
+jwt:
+  url: 'http://authorization-server.dev:8029/jwt/verify'

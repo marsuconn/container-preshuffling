@@ -1,0 +1,21 @@
+
+apply plugin: 'ErdGenerator'
+apply plugin: 'NexusPublishing'
+
+compileJava {
+    options.annotationProcessorPath = configurations.annotationProcessor
+    // This is required for the STS - 4 or Eclipse
+    options.generatedSourceOutputDirectory = file("${projectDir}/src/main/generated")
+}
+
+dependencies {
+    api "com.blumeglobal:core-arch:${coreArchitectureVersion}"
+    api "com.blumeglobal:core-mysql:${coreArchitectureVersion}"
+    api "com.blumeglobal:core-security:${coreArchitectureVersion}"
+    testImplementation "com.blumeglobal:core-test:${coreArchitectureVersion}"
+
+    annotationProcessor "com.querydsl:querydsl-apt:4.2.1:jpa",
+            "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final",
+            "javax.annotation:javax.annotation-api:1.3.2",
+            "org.projectlombok:lombok:1.18.20"
+}

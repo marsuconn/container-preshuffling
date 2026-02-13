@@ -1,0 +1,13 @@
+support_folder: test/files/
+
+port: ":5000"
+config_port: "5000"
+
+jwt:
+  url: 'http://authorization-server.dev:8029/jwt/verify'
+
+SQLALCHEMY_APPOINTMENT_URI: "mysql+pymysql://apss:apss@localhost:1234/appointmentscheduling"
+SQLALCHEMY_STACK_OPTIMIZER_URI: "mysql+pymysql://stackappusr:St%40cK%40pP^$r517@localhost:1234/stackoptimizer"
+
+gcp_key: "./src/gcp/local-dev.json"
+gcp_bucket: "blume-maps-dev-bucket"

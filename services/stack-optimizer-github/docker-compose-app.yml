@@ -1,0 +1,75 @@
+version: '3.4'
+services:
+  mysql:
+    image: mysql/mysql-server:8.0.28
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: dev
+      MYSQL_DATABASE: core
+    volumes:
+      - ./docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - type: volume
+        source: mysql-db
+        target: /user/mysql/data/db
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9091,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  mq:
+    image: vromero/activemq-artemis:latest
+    environment:
+      - ARTEMIS_USERNAME=artemis
+      - ARTEMIS_PASSWORD=artemis
+    ports:
+      - 8161:8161
+      - 61616:61616
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - REDIS_MASTER_HOST=127.0.0.1
+      - REDIS_PASSWORD=test123
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - "6379:6379"
+    volumes:
+        - 'redis_data:/bitnami/redis'
+#
+#  mongodb:
+#    image: mongo:5.0
+#    ports:
+#      - 27017:27017
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=dev
+#      - MONGO_INITDB_ROOT_PASSWORD=dev
+#    volumes:
+#      - ./docker-entrypoint-initdb.d/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+
+volumes:
+  mysql-db:
+  zookeeper-data:
+    driver: local
+  zookeeper-log:
+    driver: local
+  kafka-data:
+    driver: local
+  redis_data:
+    driver: local

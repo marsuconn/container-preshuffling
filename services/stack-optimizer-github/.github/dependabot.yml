@@ -1,0 +1,104 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+registries:
+  blume-nexus:
+    type: maven-repository
+    url: https://maven.pkg.github.com/rez-one/blume-maven-repo
+    username: ${{ secrets.BLUME_MAVEN_REPO_USERNAME }}
+    password: ${{ secrets.BLUME_MAVEN_REPO_PASSWORD }}
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: gradle
+    directory: /app
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: npm
+    directory: /micro-ui
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: gradle
+    directory: /jpamodel
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: gradle
+    directory: /external-terminal
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: gradle
+    directory: /data-channel
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope
+  - package-ecosystem: gradle
+    directory: /common
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: com.blumeglobal:*
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: DEPENDABOT
+      include: scope      

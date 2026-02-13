@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        maven {url 'https://nexus.rez1.com/repository/public'}
+    }
+    dependencies {
+        classpath "com.blumeglobal:core-build-plugins:1.1.25-dev-SNAPSHOT"
+        classpath 'javax.servlet:javax.servlet-api:3.1.0'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.5.3'
+    id "org.openapi.generator" version "6.0.0"
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'jacoco'
+    id "com.gorylenko.gradle-git-properties" version "2.3.2"
+    id 'org.hidetake.swagger.generator' version '2.18.2'
+    id "com.diffplug.spotless" version "6.13.0"
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'HelmInstallAutomation'
+
+    group = 'com.blumeglobal'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '1.8'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        maven { url 'https://nexus.rez1.com/repository/public' }
+    }
+
+    configurations {
+        jaxb
+    }
+
+    compileJava {
+        options.annotationProcessorPath = configurations.annotationProcessor
+        // This is required for the STS - 4 or Eclipse
+        options.generatedSourceOutputDirectory = file("${projectDir}/src/main/generated")
+    }
+
+    ext {
+        coreArchitectureVersion = '1.1.25-dev-SNAPSHOT'
+    }
+
+    jar {
+        enabled = true
+    }
+
+    dependencies {
+        annotationProcessor 'org.projectlombok:lombok:1.18.20'
+        api "com.blumeglobal:core-logger:${coreArchitectureVersion}"
+        api "com.blumeglobal:core-arch:${coreArchitectureVersion}"
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:2.5.3"
+        testAnnotationProcessor "org.springframework.boot:spring-boot-configuration-processor:2.5.3"
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+        compileOnly 'org.projectlombok:lombok:1.18.20'
+        testImplementation 'org.projectlombok:lombok:1.18.20'
+        testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    }
+
+    bootJar {
+        enabled = false
+    }
+
+    task sourceJar(type: Jar) {
+        classifier 'sources'
+        from sourceSets.main.allJava
+    }
+
+    test {
+        environment "spring.profiles.active","test"
+    }
+}

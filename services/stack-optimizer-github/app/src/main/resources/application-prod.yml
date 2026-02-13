@@ -1,0 +1,8 @@
+server:
+  port: 5296
+cache-connections:
+  configurations:
+    core:
+      cache:
+        cacheNames:
+          sample-events: 5m

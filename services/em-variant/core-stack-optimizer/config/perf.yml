@@ -1,0 +1,5 @@
+port: ":9205"
+config_port: "9205"
+
+jwt:
+  url: 'http://authorization-server.perf:9002/jwt/verify'

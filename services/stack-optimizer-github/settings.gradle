@@ -1,0 +1,9 @@
+rootProject.name = 'stack-optimizer'
+include ":app"
+include":jpamodel"
+include":rest-sdk-java"
+include":rest-sdk-js"
+include":micro-ui"
+include":common"
+include":model"
+

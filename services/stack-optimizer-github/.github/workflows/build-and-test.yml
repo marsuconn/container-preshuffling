@@ -1,0 +1,22 @@
+name: Build and Test Quality Gate
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'releases/**'
+jobs:
+  call-workflow-from-core-arch:
+    name: Invoke core workflow to generate build and test
+    uses: rez-one/shared-workflows/.github/workflows/build-test-release.yml@main
+    secrets:
+      SSH_JUMP_HOST_USER: ${{ secrets.SSH_JUMP_HOST_USER }}
+      SSH_JUMP_HOST_KEY: ${{ secrets.SSH_JUMP_HOST_KEY }}
+      SSH_JUMP_HOST_IP: ${{ secrets.SSH_JUMP_HOST_IP }}
+      GCR_CREDENTIALS: ${{ secrets.GCR_CREDENTIALS }}
+      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+    with:
+      branchesToPublishArtifacts: '["master", "releases/*"]'
+      branchesToPublishImages: '["master", "releases/*"]'
+

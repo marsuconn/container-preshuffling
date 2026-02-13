@@ -1,0 +1,430 @@
+from collections import OrderedDict
+import copy
+from matplotlib import cm, patches, pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import numpy as np
+
+
+def plot_bays_3d(bays, output_filename='3D-plots-output-bay.png', max_stacks=5, max_tiers=4):
+    # Determine the total number of unique time windows
+    unique_times = set()
+    for bay in bays.values():
+        for stack in bay.values():
+            for container in stack:
+                unique_times.add(container[1])
+    num_unique_times = len(unique_times)
+
+    # Use a more visually appealing color palette
+    colors = plt.cm.viridis(np.linspace(0, 1, num_unique_times))
+
+    fig = plt.figure(figsize=(40, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    bay_gap=0.02
+    stack_gap=0.02
+
+    for bay_num, (bay_name, bay) in enumerate(bays.items()):
+        for i, (stack_name, stack) in enumerate(sorted(bay.items())):
+            z_position = 0
+            for j, (container_id, container_time) in enumerate(stack):
+                color_index = list(unique_times).index(container_time)
+                ax.bar3d(bay_num+bay_gap*bay_num, i+stack_gap*i, z_position, 1, 1, 1, color=colors[color_index], shade=True, linewidth=0.5, edgecolor='black')
+                ax.text(bay_num + 0.5 + bay_gap * bay_num, i + 0.5 + stack_gap * i, z_position + 0.5, f"{container_id}\n({container_time})", color='black', ha='center', va='center', fontsize=8)
+                z_position += 1
+
+    ax.set_xticks(np.arange(len(bays)) + 0.5)
+    ax.set_xticklabels(list(bays.keys()), fontsize=10)
+    
+    ax.set_yticks(np.arange(max_stacks) + 0.5)
+    ax.set_yticklabels([f'stack{i+1}' for i in range(max_stacks)], fontsize=10)
+    
+    ax.set_zticks(np.arange(max_tiers) + 0.5)
+    ax.set_zticklabels([f'Tier {i+1}' for i in range(max_tiers)], fontsize=10)
+
+    ax.set_xlabel('Bays', fontsize=12, labelpad=10)
+    ax.set_ylabel('Stacks', fontsize=12, labelpad=10)
+    ax.set_zlabel('Tiers', fontsize=12, labelpad=10)
+
+    # Adjust perspective for better visibility
+    ax.view_init(elev=20, azim=-35)
+
+    # Remove the background grid
+    ax.xaxis.pane.fill = False
+    ax.yaxis.pane.fill = False
+    ax.zaxis.pane.fill = False
+    ax.grid(False)
+
+    plt.tight_layout()
+    plt.savefig(output_filename)  
+    #plt.show()
+
+
+#def plot_bays_3d_v2(bays, output_filename='3D-plots-output-bay.png', max_stacks=5, max_tiers=4):
+def plot_bays_3d_v2(bays, output_filename='3D-plots-output-bay.png', max_stacks=5, max_tiers=4):
+    # Determine the total number of unique time windows
+    unique_times = set()
+    for bay in bays.values():
+        for stack in bay.values():
+            for container in stack:
+                unique_times.add(container[1])
+    num_unique_times = len(unique_times)
+
+    # Use a more visually appealing color palette
+    colors = plt.cm.viridis(np.linspace(0, 1, num_unique_times))
+
+    fig = plt.figure(figsize=(20, 15))  # Adjust the figure size
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Adjusted scaling factors based on the actual dimensions of a 40 ft container
+    scale = 0.02  # adjust this scaling factor
+    scale_x = 40 * scale
+    scale_y = 8 * scale
+    scale_z = 8.5 * scale
+
+    for bay_num, (bay_name, bay) in enumerate(bays.items()):
+        for i, (stack_name, stack) in enumerate(sorted(bay.items())):
+            z_position = 0
+            for j, (container_id, container_time) in enumerate(stack):
+                color_index = list(unique_times).index(container_time)
+                ax.bar3d(bay_num * scale_x, i * scale_y, z_position, scale_x, scale_y, scale_z, 
+                         color=colors[color_index], shade=True, linewidth=0.5, edgecolor='black')
+                z_position += scale_z
+
+    ax.set_xticks([i * scale_x + scale_x / 2 for i in range(len(bays))])
+    ax.set_xticklabels(list(bays.keys()), fontsize=10)
+    
+    ax.set_yticks([i * scale_y + scale_y / 2 for i in range(max_stacks)])
+    ax.set_yticklabels([f'stack{i+1}' for i in range(max_stacks)], fontsize=10)
+    
+    ax.set_zticks([i * scale_z + scale_z / 2 for i in range(max_tiers)])
+    ax.set_zticklabels([f'Tier {i+1}' for i in range(max_tiers)], fontsize=10)
+
+    ax.set_xlabel('Bays', fontsize=12, labelpad=10)
+    ax.set_ylabel('Stacks', fontsize=12, labelpad=10)
+    ax.set_zlabel('Tiers', fontsize=12, labelpad=10)
+
+    # Adjust perspective for better visibility
+    ax.view_init(elev=20, azim=-35)
+
+    # Remove the background grid
+    ax.xaxis.pane.fill = False
+    ax.yaxis.pane.fill = False
+    ax.zaxis.pane.fill = False
+    ax.grid(False)
+
+    plt.tight_layout()
+    plt.savefig(output_filename)  
+    plt.show()
+
+
+existing_bays = {1: {'stack1': [('c11', 6), ('c9', 5)],
+  'stack2': [('c3', 8), ('c10', 6), ('c12', 2), ('c2', 1)],
+  'stack3': [('c5', 6), ('c7', 4)],
+  'stack4': [('c6', 5)],
+  'stack5': [('c1', 7), ('c8', 4), ('c4', 2)]},
+ 2: {'stack1': [('c13', 9), ('c12', 7), ('c6', 6), ('c5', 5)],
+  'stack2': [('c4', 9)],
+  'stack3': [('c2', 9), ('c3', 2)],
+  'stack4': [('c11', 9), ('c9', 1)],
+  'stack5': [('c1', 9), ('c10', 6), ('c8', 2), ('c7', 1)]},
+ 3: {'stack1': [('c7', 9), ('c9', 8), ('c6', 7), ('c3', 2)],
+  'stack2': [('c2', 7), ('c11', 2)],
+  'stack3': [('c1', 9), ('c5', 6), ('c12', 2)],
+  'stack4': [('c4', 6), ('c10', 2)],
+  'stack5': [('c8', 9)]},
+ 4: {'stack1': [('c7', 9), ('c9', 6), ('c4', 1)],
+  'stack2': [('c6', 9)],
+  'stack3': [('c2', 6), ('c12', 1)],
+  'stack4': [('c3', 9), ('c5', 6), ('c11', 4), ('c10', 1)],
+  'stack5': [('c8', 9), ('c1', 6)]},
+ 5: {'stack1': [('c11', 9), ('c13', 7), ('c9', 3)],
+  'stack2': [('c1', 9), ('c2', 8), ('c10', 7)],
+  'stack3': [('c4', 9), ('c14', 4), ('c6', 1)],
+  'stack4': [('c8', 8)],
+  'stack5': [('c7', 5), ('c12', 4), ('c5', 3), ('c3', 2)]},
+ 6: {'stack1': [('c2', 9), ('c7', 5), ('c12', 2), ('c3', 1)],
+  'stack2': [('c6', 9), ('c11', 6), ('c1', 2)],
+  'stack3': [('c9', 9), ('c5', 7), ('c4', 6), ('c13', 5)],
+  'stack4': [('c8', 6)],
+  'stack5': [('c10', 8)]},
+ 7: {'stack1': [('c8', 7), ('c9', 5), ('c5', 1)],
+  'stack2': [('c6', 7)],
+  'stack3': [('c4', 9), ('c10', 7), ('c13', 4), ('c1', 2)],
+  'stack4': [('c11', 7), ('c2', 6), ('c3', 4)],
+  'stack5': [('c7', 8), ('c12', 7)]},
+ 8: {'stack1': [('c11', 9), ('c10', 6), ('c5', 5), ('c8', 3)],
+  'stack2': [('c1', 7), ('c9', 5), ('c7', 1)],
+  'stack3': [('c3', 9), ('c6', 4), ('c4', 1)],
+  'stack4': [('c13', 7)],
+  'stack5': [('c12', 4), ('c2', 1)]},
+ 9: {'stack1': [('c9', 9), ('c1', 5), ('c4', 2)],
+  'stack2': [('c10', 8), ('c6', 7)],
+  'stack3': [('c2', 5)],
+  'stack4': [('c5', 6), ('c7', 1)],
+  'stack5': [('c3', 5), ('c8', 1)]},
+ 10: {'stack1': [('c9', 9), ('c14', 7), ('c6', 5)],
+  'stack2': [('c2', 9), ('c3', 8), ('c12', 7)],
+  'stack3': [('c8', 8), ('c7', 3), ('c5', 2)],
+  'stack4': [('c1', 5)],
+  'stack5': [('c13', 9), ('c10', 5), ('c11', 3), ('c4', 2)]},
+ 11: {'stack1': [('c2', 7), ('c12', 7), ('c14', 5), ('c11', 3)],
+  'stack2': [('c1', 5), ('c4', 2), ('c7', 1)],
+  'stack3': [('c6', 9), ('c8', 8)],
+  'stack4': [('c3', 7), ('c10', 2)],
+  'stack5': [('c5', 9), ('c9', 9), ('c13', 5)]},
+ 12: {'stack1': [('c5', 9), ('c6', 5)],
+  'stack2': [('c7', 9)],
+  'stack3': [('c9', 9), ('c10', 3), ('c4', 2)],
+  'stack4': [('c1', 9), ('c2', 2)],
+  'stack5': [('c3', 8), ('c8', 3)]},
+ 13: {'stack1': [('c10', 9), ('c12', 4), ('c1', 1)],
+  'stack2': [('c4', 9)],
+  'stack3': [('c9', 8), ('c13', 5), ('c14', 3)],
+  'stack4': [('c5', 9), ('c6', 9), ('c11', 8), ('c8', 7)],
+  'stack5': [('c2', 9), ('c7', 9), ('c3', 7)]},
+ 14: {'stack1': [('c1', 9), ('c10', 8), ('c9', 4)],
+  'stack2': [('c7', 6), ('c2', 3)],
+  'stack3': [('c4', 7), ('c6', 1)],
+  'stack4': [('c12', 9), ('c8', 6), ('c11', 4), ('c3', 3)],
+  'stack5': [('c5', 7)]},
+ 15: {'stack1': [('c14', 9), ('c13', 8), ('c11', 5)],
+  'stack2': [('c9', 9), ('c6', 9), ('c12', 7), ('c3', 5)],
+  'stack3': [('c2', 9), ('c4', 4), ('c1', 3)],
+  'stack4': [('c8', 5), ('c7', 2), ('c10', 1)],
+  'stack5': [('c5', 8)]},
+ 16: {'stack1': [('c3', 9), ('c8', 6), ('c9', 1)],
+  'stack2': [('c4', 9), ('c11', 9), ('c10', 4), ('c6', 3)],
+  'stack3': [('c1', 5), ('c14', 1)],
+  'stack4': [('c5', 9), ('c13', 7), ('c12', 6)],
+  'stack5': [('c2', 6), ('c7', 9)]},
+ 17: {'stack1': [('c6', 7), ('c10', 5)],
+  'stack2': [('c4', 9), ('c7', 6)],
+  'stack3': [('c9', 5), ('c11', 4), ('c5', 2)],
+  'stack4': [('c1', 9), ('c3', 4), ('c12', 3), ('c8', 2)],
+  'stack5': [('c2', 3)]},
+ 18: {'stack1': [('c8', 9), ('c9', 3)],
+  'stack2': [('c3', 5), ('c2', 4), ('c6', 2)],
+  'stack3': [('c7', 9)],
+  'stack4': [('c4', 9), ('c5', 9)],
+  'stack5': [('c1', 8), ('c10', 4), ('c11', 3)]},
+ 19: {'stack1': [('c6', 8)],
+  'stack2': [('c5', 9), ('c7', 7), ('c4', 3)],
+  'stack3': [('c9', 8)],
+  'stack4': [('c1', 7), ('c2', 3), ('c3', 2)],
+  'stack5': [('c8', 7), ('c10', 7)]},
+ 20: {'stack1': [('c10', 9)],
+  'stack2': [('c1', 9), ('c4', 7), ('c11', 5)],
+  'stack3': [('c7', 3), ('c9', 1)],
+  'stack4': [('c2', 3)],
+  'stack5': [('c3', 9), ('c5', 4), ('c6', 2), ('c8', 1)]}}
+
+
+plot_bays_3d_v2(existing_bays)
+
+
+
+
+incoming_containers=[('c101', 8), ('c102', 4), ('c103', 3), ('c104', 1), ('c105', 9), ('c106', 4), ('c107', 2), ('c108', 1),('c109', 1),('c110', 5),('c111', 7),('c112', 8),('c113', 9),('c114', 1),('c115', 4)]
+
+crane_location=10
+
+# Sort incoming containers based on time, from largest to smallest time
+sorted_incoming_containers = sorted(incoming_containers, key=lambda x: x[1], reverse=True)
+
+# Sort bays based on distance from crane's location
+sorted_bay_ids = sorted(existing_bays.keys(), key=lambda x: abs(crane_location - x))
+
+sorted_bays = {bay_id: existing_bays[bay_id] for bay_id in sorted_bay_ids}
+
+# Constants
+MAX_TIER = 4  # 
+
+def place_containers(existing_bays, incoming_containers):
+    # List to keep track of containers that couldn't be placed
+    unplaced_containers = []
+
+    # Dictionary to store the locations of the incoming containers
+    container_location = {}
+
+    # Iterate over each incoming container
+    for container in incoming_containers:
+        best_bay_id = None
+        best_stack_name = None
+        minimum_time_difference = float('inf')  # Initialize with infinity
+
+        # Iterate over each bay and stack
+        for bay_id, bay in existing_bays.items():
+            for stack_name, stack in bay.items():
+                current_tier = len(stack)
+
+                # Ensure stack doesn't exceed maximum tier
+                if current_tier >= MAX_TIER:
+                    continue
+
+                # Check if stack is empty
+                if not stack:
+                    if minimum_time_difference > float('inf'):  # As it's an empty stack, we consider its time as infinity
+                        best_bay_id = bay_id
+                        best_stack_name = stack_name
+                        minimum_time_difference = float('inf')
+                else:
+                    top_container = stack[-1]  # Top container of the current stack
+                    current_time_difference =  top_container[1]-container[1] 
+
+                    # Ensure that the incoming container has a later time than the top container
+                    # and update the best bay and stack if needed
+                    if current_time_difference > 0 and current_time_difference < minimum_time_difference:
+                        best_bay_id = bay_id
+                        best_stack_name = stack_name
+                        minimum_time_difference = current_time_difference
+
+        # If we found a suitable bay and stack, place the container
+        if best_bay_id is not None and best_stack_name is not None:
+            existing_bays[best_bay_id][best_stack_name].append(container)
+            tier = len(existing_bays[best_bay_id][best_stack_name])  # tier is the current height of the stack after placing the container
+            container_location[container[0]] = {"bay_id": best_bay_id, "stack_name": best_stack_name, "tier": tier}
+        else:
+            # If the container couldn't be placed, add it to the unplaced_containers list
+            unplaced_containers.append(container)
+
+    # Return the updated bays, the list of containers that couldn't be placed, and the container locations
+    return existing_bays, unplaced_containers, container_location
+
+
+updated_bays, unplaced_containers,container_location = place_containers(sorted_bays, sorted_incoming_containers)
+
+
+
+placed_containers_ids = list(container_location.keys())
+
+
+
+def plot_bays(bays, incoming_ids, max_stacks=5, max_tiers=4, pdf_filename='bays_plots.pdf'):
+    # Determine the total number of unique time windows
+    unique_times = set()
+    for bay in bays.values():
+        for stack in bay.values():
+            for container in stack:
+                unique_times.add(container[1])
+    num_unique_times = len(unique_times)
+
+    # Generate a color for each unique time window
+    colors = cm.rainbow(np.linspace(0, 1, num_unique_times))
+
+    with PdfPages(pdf_filename) as pdf:
+        for bay_num, bay in sorted(bays.items(), key=lambda x: int(x[0])):
+
+            fig, ax = plt.subplots()
+
+            # Ensure that all stacks are displayed
+            for i in range(max_stacks):
+                stack_name = f'stack{i+1}'
+                if stack_name not in bay:
+                    bay[stack_name] = []  # initialize an empty list for the stack
+
+            for i, (stack_name, stack) in enumerate(sorted(bay.items())):
+                bottom = 0
+                for j, (container_id, container_time) in enumerate(stack):
+                    color_index = list(unique_times).index(container_time)
+                    
+                    if container_id in incoming_ids:
+                        hatch_pattern = '//'
+                    else:
+                        hatch_pattern = ''
+
+                    ax.bar(i, 1, bottom=bottom, color=colors[color_index], edgecolor='black', hatch=hatch_pattern, width=1)
+
+                    ax.text(i, bottom + 0.5, f"{container_id} ({container_time})", color='black', ha='center', va='center')
+                    bottom += 1
+
+            ax.set_xticks(np.arange(max_stacks))
+            ax.set_xticklabels([f'stack{i+1}' for i in range(max_stacks)])
+            ax.set_yticks(np.arange(max_tiers) + 0.5)
+            ax.set_yticklabels([f'Tier {i+1}' for i in range(max_tiers)])
+
+            plt.tick_params(
+                axis='x',
+                which='both',
+                bottom=False,
+                top=False,
+                labelbottom=True)
+
+            ax.set_xlim(left=-0.5, right=max_stacks-0.5)
+            ax.set_ylim(top=max_tiers)
+            plt.title(f'Container Location in Bay {bay_num}')
+
+            pdf.savefig(fig)
+            plt.close()
+
+
+
+
+plot_bays(dict(sorted(updated_bays.items())), incoming_ids=placed_containers_ids)
+
+
+
+def plot_bays_3d_added_containers(bays, added_containers, output_filename='my3dplot3D-plots-output-bay.png', max_stacks=5, max_tiers=4):
+    unique_times = set()
+    for bay in bays.values():
+        for stack in bay.values():
+            for container in stack:
+                unique_times.add(container[1])
+    num_unique_times = len(unique_times)
+
+    colors = plt.cm.viridis(np.linspace(0, 1, num_unique_times))
+
+    fig = plt.figure(figsize=(20, 15))
+    ax = fig.add_subplot(111, projection='3d')
+
+    scale = 0.02  
+    scale_x = 40 * scale
+    scale_y = 8 * scale
+    scale_z = 8.5 * scale
+
+    for bay_num, (bay_name, bay) in enumerate(bays.items()):
+        for i, (stack_name, stack) in enumerate(sorted(bay.items())):
+            z_position = 0
+            for j, (container_id, container_time) in enumerate(stack):
+                color_index = list(unique_times).index(container_time)
+                facecolor = colors[color_index]
+                hatch = ''
+                edgecolor = 'black'
+                if container_id in added_containers:
+                    hatch = 'xx'  # You can customize the hatch pattern here
+                    edgecolor = 'red'  # Also highlighting the edge color to make it more distinct
+                ax.bar3d(bay_num * scale_x, i * scale_y, z_position, scale_x, scale_y, scale_z, 
+                         color=facecolor, hatch=hatch, linewidth=0.5, edgecolor=edgecolor)
+                z_position += scale_z
+
+    ax.set_xticks([i * scale_x + scale_x / 2 for i in range(len(bays))])
+    ax.set_xticklabels(list(bays.keys()), fontsize=10)
+
+    ax.set_yticks([i * scale_y + scale_y / 2 for i in range(max_stacks)])
+    ax.set_yticklabels([f'stack{i+1}' for i in range(max_stacks)], fontsize=10)
+
+    ax.set_zticks([i * scale_z + scale_z / 2 for i in range(max_tiers)])
+    ax.set_zticklabels([f'Tier {i+1}' for i in range(max_tiers)], fontsize=10)
+
+    ax.set_xlabel('Bays', fontsize=12, labelpad=10)
+    ax.set_ylabel('Stacks', fontsize=12, labelpad=10)
+    ax.set_zlabel('Tiers', fontsize=12, labelpad=10)
+
+    ax.view_init(elev=20, azim=-35)
+
+    ax.xaxis.pane.fill = False
+    ax.yaxis.pane.fill = False
+    ax.zaxis.pane.fill = False
+    ax.grid(False)
+
+    plt.tight_layout()
+    plt.savefig(output_filename)  
+    plt.show()
+
+
+sorted_bays = {k: v for k, v in sorted(updated_bays.items())}
+
+
+
+plot_bays_3d(existing_bays)
+
+plot_bays_3d_added_containers(sorted_bays, incoming_containers)

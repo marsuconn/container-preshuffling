@@ -1,0 +1,7 @@
+mysql-jpa-connections:
+  configurations:
+    apss:
+      jdbc:
+        jdbcUrl: jdbc:mysql://data-mbe8-prod-db-us-west.rez1.com.:3306/stackoptimizer?serverTimezone=UTC&useLegacyDatetimeCode=false
+        username: stackappusr
+        password: St@cK@pP^$r517

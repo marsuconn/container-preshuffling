@@ -1,0 +1,42 @@
+portforwarding:
+  configurations:
+    mysql:
+      jumpServer: 10.16.0.3
+      user: ipfwd
+      port: 22
+      localPort: <newport>
+      remotePort: 3306
+      remoteHost: data-blume-devdb-5.rez1.com
+
+mysql-jpa-connections:
+  configurations:
+    stackOptimizer:
+      flyway:
+        migrationsPath: classpath:stackoptimizer/db/migration
+        mode: MIGRATE
+      jpa:
+        persistenceUnitName: stackOptimizer
+        entityPackageScan: com.blumeglobal.stackoptimizer
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      #        hbm2ddl: create
+      jdbc:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        idleTimeout: 300000
+        connectionTimeout: 20000
+        maximumPoolSize: 50
+        minimumIdle: 10
+        poolName: StackOptimizer_Query_Conn_Pool
+        jdbcUrl: jdbc:mysql://localhost:<newport>/stackoptimizer
+        username: stackappusr
+        password: St@cK@pP^$r517
+      # configure sql interceptors
+      dsc:
+        interceptors:
+          - audit
+          - performance
+        # configure audit column names if audit interceptor is configured
+        auditFields:
+          createBy: create_by
+          createOn: create_on
+          updateBy: update_by
+          updateOn: update_on

@@ -1,0 +1,5 @@
+port: ":7230"
+config_port: "7230"
+
+jwt:
+  url: 'http://authorization-server.test:7089/jwt/verify'

@@ -1,0 +1,8 @@
+port: ":9205"
+config_port: "9205"
+
+jwt:
+  url: 'http://authorization-server.perf:9002/jwt/verify'
+
+SQLALCHEMY_APPOINTMENT_URI: "mysql+pymysql://apss:Ap$$0!^654@data-blume-perfdb-3.rez1.com:3306/appointmentscheduling"
+SQLALCHEMY_STACK_OPTIMIZER_URI: "mysql+pymysql://stackappusr:St%40cK%40pP^$r517@data-blume-perfdb-3.rez1.com:3306/stackoptimizer"

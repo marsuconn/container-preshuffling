@@ -1,0 +1,8 @@
+port: ":5235"
+config_port: "5235"
+
+jwt:
+  url: 'http://authorization-server.uat:8189/jwt/verify'
+
+SQLALCHEMY_APPOINTMENT_URI: "mysql+pymysql://appoiappusr:sfsoqeu5s$iR@data-mbe8-uat-db-us-west.rez1.com:3306/appointmentscheduling"
+SQLALCHEMY_STACK_OPTIMIZER_URI: "mysql+pymysql://stackappusr:St%40cK%40pP^$r517@data-mbe8-uat-db-us-west.rez1.com:3306/stackoptimizer"

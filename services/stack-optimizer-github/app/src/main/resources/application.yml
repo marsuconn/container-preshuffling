@@ -1,0 +1,111 @@
+management:
+  endpoint:
+    health:
+      group:
+        custom:
+          include: diskSpace,ping
+      show-details: Always
+  health:
+    defaults:
+      enabled: true
+
+cache-connections:
+  configurations:
+    core:
+      cache:
+        cacheNames:
+          sample-events: 5m
+
+
+imagename: ${image-name}
+
+spring:
+  application:
+    name: stackoptimizer
+  config:
+    import: optional:configserver:/
+  profiles:
+    active: local
+
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+  boot:
+    admin:
+      client:
+        enabled: false
+        url: http://localhost:9898
+
+default:
+  jwt:
+    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb25UeXBlIjoiQWRtaW4iLCJvcmdhbml6YXRpb25UeXBlcyI6WyJBZG1pbiJdLCJzdWIiOiJiaXpUb0JpekBibHVtZS5jb20iLCJmaXJzdE5hbWUiOiJCaXoiLCJsYXN0TmFtZSI6IkJpeiIsImVtYWlsQWRkcmVzcyI6ImJpelRvQml6QGJsdW1lLmNvbSIsIm9yZ2FuaXphdGlvblV1aWQiOiI3NWRhZjIyNi05NWQ3LTQwZDgtYTk0NC03YWUyYTI1MDg1ZDYiLCJwaG9uZU51bWJlciI6Ijc4MS14eHgteXl5eSIsIm9yZ2FuaXphdGlvbk5hbWUiOiJSRVotMSIsIm9yZ2FuaXphdGlvbkNvZGUiOiJSRVoxXzcyIiwib3JnYW5pemF0aW9uRGJJZCI6MCwiYnVzaW5lc3NBZGRyZXNzIjoiIn0.WEkoKJb5wzzmwGK3eRa1y3QnRKozfbC_BP3kIyDlGPL3ZAdYWF9Akagbc6SJZptrV_TSiGQE4BajNyz1LLs38A
+
+swagger:
+  jwt:
+    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb25UeXBlIjoiQWRtaW4iLCJvcmdhbml6YXRpb25UeXBlcyI6WyJBZG1pbiJdLCJzdWIiOiJiaXpUb0JpekBibHVtZS5jb20iLCJmaXJzdE5hbWUiOiJCaXoiLCJsYXN0TmFtZSI6IkJpeiIsImVtYWlsQWRkcmVzcyI6ImJpelRvQml6QGJsdW1lLmNvbSIsIm9yZ2FuaXphdGlvblV1aWQiOiI3NWRhZjIyNi05NWQ3LTQwZDgtYTk0NC03YWUyYTI1MDg1ZDYiLCJwaG9uZU51bWJlciI6Ijc4MS14eHgteXl5eSIsIm9yZ2FuaXphdGlvbk5hbWUiOiJSRVotMSIsIm9yZ2FuaXphdGlvbkNvZGUiOiJSRVoxXzcyIiwib3JnYW5pemF0aW9uRGJJZCI6MCwiYnVzaW5lc3NBZGRyZXNzIjoiIn0.WEkoKJb5wzzmwGK3eRa1y3QnRKozfbC_BP3kIyDlGPL3ZAdYWF9Akagbc6SJZptrV_TSiGQE4BajNyz1LLs38A
+
+
+external:
+  service:
+    mbe-api: https://dev-apps.blumesolutions.com/mbe-api
+
+server:
+  servlet:
+    context-path: /stack-optimizer
+  port: 8080
+auth:
+  jwt:
+    url:
+      decryption: https://dev-apps.blumesolutions.com/jwt/decrypt/
+      verification: https://dev-apps.blumesolutions.com/jwt/verify/
+project:
+  path:
+    patterns:
+      include: /**
+      exclude: /v3/api-docs
+core:
+  logger:
+    enabled: true
+  kafka:
+    bootstrap:
+      server: localhost:9092
+    producer:
+      session: 20
+  arch:
+    web:
+      swagger:
+        jwtToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb25UeXBlIjoiQWRtaW4iLCJvcmdhbml6YXRpb25UeXBlcyI6WyJBZG1pbiJdLCJzdWIiOiJiaXpUb0JpekBibHVtZS5jb20iLCJmaXJzdE5hbWUiOiJCaXoiLCJsYXN0TmFtZSI6IkJpeiIsImVtYWlsQWRkcmVzcyI6ImJpelRvQml6QGJsdW1lLmNvbSIsIm9yZ2FuaXphdGlvblV1aWQiOiI3NWRhZjIyNi05NWQ3LTQwZDgtYTk0NC03YWUyYTI1MDg1ZDYiLCJwaG9uZU51bWJlciI6Ijc4MS14eHgteXl5eSIsIm9yZ2FuaXphdGlvbk5hbWUiOiJSRVotMSIsIm9yZ2FuaXphdGlvbkNvZGUiOiJSRVoxXzcyIiwib3JnYW5pemF0aW9uRGJJZCI6MCwiYnVzaW5lc3NBZGRyZXNzIjoiIn0.WEkoKJb5wzzmwGK3eRa1y3QnRKozfbC_BP3kIyDlGPL3ZAdYWF9Akagbc6SJZptrV_TSiGQE4BajNyz1LLs38A
+        apiInfoTitle: Core Architecture Rest APIs
+        apiInfoDescription: The rest apis for Core Architecture.
+        apiInfoVersion: 2.0
+        apiBasePath: /stack-optimizer
+web-proxy-configurations:
+  configurations:
+    mbe:
+      path: /mbe-api/*
+      forwardUrl: https://dev-apps.blumesolutions.com/mbe-api
+      forward-ip: false
+      preserve-host: false
+    test:
+      path: /test-api/*
+      forwardUrl: http://localhost:8080/stack-optimizer/sayHello
+      forward-ip: true
+    location:
+      path: /location-v2-api/*
+      forward-url: https://dev-apps.blumesolutions.com/location-v2-api
+      forward-ip: false
+      preserve-host: false
+
+quartz-scheduler:
+  configurations:
+    core:
+      auto-startup: true
+
+logging:
+  config: classpath:stackoptimizer/logback.xml
+pagination:
+  default:
+    page-size: 25
+    max-page-size: 5000

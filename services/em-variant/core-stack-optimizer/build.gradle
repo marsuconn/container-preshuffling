@@ -1,0 +1,22 @@
+buildscript {
+
+    repositories {
+        maven {
+            url 'https://nexus.rez1.com/repository/public'
+        }
+    }
+
+    dependencies {
+        classpath "com.blumeglobal:core-build-plugins:current-SNAPSHOT"
+    }
+}
+
+
+plugins {
+    id 'ru.vyarus.use-python' version '3.0.0'
+    id "base"
+}
+
+apply plugin: 'BlumeMeta'
+apply plugin: 'GCRPublish'
+apply plugin: 'HelmInstallAutomation'

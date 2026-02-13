@@ -1,0 +1,11 @@
+port: ":8287"
+config_port: "8287"
+
+jwt:
+  url: 'http://authorization-server.dev:8029/jwt/verify'
+
+SQLALCHEMY_APPOINTMENT_URI: "mysql+pymysql://apss:apss@data-blume-devdb-5.rez1.com:3306/appointmentscheduling"
+SQLALCHEMY_STACK_OPTIMIZER_URI: "mysql+pymysql://stackappusr:St%40cK%40pP^$r517@data-blume-devdb-5.rez1.com:3306/stackoptimizer"
+
+gcp_key: "./src/gcp/dev.json"
+gcp_bucket: "blume-maps-dev-bucket"

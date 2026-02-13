@@ -1,0 +1,23 @@
+version: 2
+registries:
+  blume-nexus:
+    type: maven-repository
+    url: https://maven.pkg.github.com/rez-one/blume-maven-repo
+    username: ${{ secrets.BLUME_MAVEN_REPO_USERNAME }}
+    password: ${{ secrets.BLUME_MAVEN_REPO_PASSWORD }}
+updates:
+  # Enable version updates for gradle
+  - package-ecosystem: "gradle"
+    directory: "/"
+    registries:
+      - blume-nexus
+    schedule:
+      interval: daily
+    allow:
+      - dependency-name: "com.blumeglobal:*"
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: "DEPENDABOT"
+      include: "scope"
+    target-branch: "releases/yosemite"

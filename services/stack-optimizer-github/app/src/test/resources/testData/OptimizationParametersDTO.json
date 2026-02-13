@@ -1,0 +1,9 @@
+{
+  "defaultValue": "Pickup",
+  "description": "pickup appointment type",
+  "locationUUID": "Roswel",
+  "organization": "NS",
+  "parameterName": "Appointments",
+  "parameterValue": "Pickup",
+  "valueType": "String"
+}

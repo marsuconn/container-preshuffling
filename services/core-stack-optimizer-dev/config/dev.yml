@@ -1,0 +1,5 @@
+port: ":8287"
+config_port: "8287"
+
+jwt:
+  url: 'http://authorization-server.dev:8029/jwt/verify'
